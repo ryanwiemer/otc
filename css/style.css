@@ -87,9 +87,9 @@ p { margin: 0 0 1em; }
 /* Disabled buttons (e.g. "Check back next year"): grayed out, not clickable */
 .btn[aria-disabled="true"],
 .btn[aria-disabled="true"]:hover {
-  background: #c9c9c9;
-  color: #555;
-  cursor: not-allowed;
+  background: #767676;
+  color: var(--white);
+  cursor: default;
 }
 
 /* ---------- Header / Nav ---------- */
@@ -518,31 +518,39 @@ p { margin: 0 0 1em; }
   background: var(--black);
   margin: 18px auto 0;
 }
+/* Event cards: one row of three on desktop, equal heights, buttons aligned at the bottom */
 .events {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 60px 60px;
-  align-items: start;
-  margin-top: 56px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: stretch;
+  margin-top: 48px;
 }
 .event {
+  display: flex;
+  flex-direction: column;
   background: var(--gray-card);
-  padding: 32px;
+  padding: 28px;
 }
 .event__img {
-  aspect-ratio: 4 / 3.1;
+  aspect-ratio: 4 / 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 36px;
+  min-height: 0;  /* keep every image box the same height, even for tall logos */
+  margin-bottom: 24px;
 }
-.event__img img { max-height: 100%; width: 100%; object-fit: contain; }
+.event__img img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
 .event__date { margin: 0 0 2px; }
 .event h2 { font-size: 20px; margin-bottom: 12px; }
 .event p { font-size: 15px; }
-.event .btn { display: table; margin: 24px auto 0; }
-@media (max-width: 760px) {
-  .events { grid-template-columns: 1fr; gap: 32px; }
+.event .btn { display: table; margin: auto auto 0; }
+.event p:last-of-type { margin-bottom: 24px; }
+@media (max-width: 1000px) {
+  .events { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .events { grid-template-columns: 1fr; gap: 24px; }
   .event { padding: 22px; }
 }
 
