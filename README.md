@@ -25,8 +25,6 @@ js/main.js            Header, mobile menu, Instagram feed, photo lightbox
 images/               Images
 ```
 
-`copy-of-about/` redirects an old URL.
-
 ## Editing
 
 - Edit page text directly in each `index.html`.
