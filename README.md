@@ -20,13 +20,12 @@ about/                Our story
 weekly-runs/          Weekly runs
 otc-events/           Events
 membership/           Contact and membership
-contact/              Contact
 css/style.css         Styles (colors and fonts are variables at the top)
 js/main.js            Header, mobile menu, Instagram feed, photo lightbox
 images/               Images
 ```
 
-`copy-of-about/` and `pricing-plans/` redirect old URLs.
+`copy-of-about/` redirects an old URL.
 
 ## Editing
 
