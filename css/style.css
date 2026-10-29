@@ -84,7 +84,13 @@ p { margin: 0 0 1em; }
 .btn:hover,
 .btn:focus-visible { background: var(--red-dark); }
 .btn--italic { font-style: italic; letter-spacing: 0.08em; font-family: var(--font-body); font-size: 14px; }
-.btn[aria-disabled="true"] { cursor: default; }
+/* Disabled buttons (e.g. "Check back next year"): grayed out, not clickable */
+.btn[aria-disabled="true"],
+.btn[aria-disabled="true"]:hover {
+  background: #c9c9c9;
+  color: #555;
+  cursor: not-allowed;
+}
 
 /* ---------- Header / Nav ---------- */
 /* Fixed, frosted-glass bar (Apple-style). Page content starts below it.
