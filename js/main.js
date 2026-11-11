@@ -59,6 +59,8 @@ var INSTAGRAM_POST_COUNT = 12;
     root.classList.toggle("menu-open", open);
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
     toggle.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+    // Keep keyboard and screen reader users inside the open drawer
+    document.querySelectorAll("main, footer").forEach(function (el) { el.inert = open; });
     if (open) {
       var first = nav.querySelector("a");
       if (first) first.focus({ preventScroll: true });
@@ -159,9 +161,8 @@ var INSTAGRAM_POST_COUNT = 12;
 
   function show(i) {
     current = (i + buttons.length) % buttons.length;
-    var thumb = buttons[current].querySelector("img");
-    img.src = thumb.getAttribute("src");
-    img.alt = thumb.getAttribute("alt");
+    img.src = buttons[current].querySelector("img").getAttribute("src");
+    img.alt = buttons[current].dataset.alt || "";
   }
 
   buttons.forEach(function (btn, i) {
@@ -178,5 +179,107 @@ var INSTAGRAM_POST_COUNT = 12;
   dialog.addEventListener("keydown", function (e) {
     if (e.key === "ArrowLeft") show(current - 1);
     if (e.key === "ArrowRight") show(current + 1);
+  });
+})();
+
+// Highlight the nav link for the section currently in view
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.site-nav a[href^="#"]'));
+  var items = links.map(function (a) {
+    return { a: a, el: document.getElementById(a.getAttribute("href").slice(1)) };
+  }).filter(function (i) { return i.el && i.a.getAttribute("href") !== "#top"; });
+  if (!items.length) return;
+
+  function update() {
+    var probe = window.scrollY + window.innerHeight * 0.35;
+    var active = null;
+    items.forEach(function (i) {
+      if (i.el.getBoundingClientRect().top + window.scrollY <= probe) active = i.a;
+    });
+    links.forEach(function (a) {
+      if (a === active) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  }
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+})();
+
+// Lazy-loaded images above a section shift the layout while scrolling to it,
+// so re-align with the target a few times after in-page navigation settles.
+(function () {
+  var timer;
+  function align(id, tries) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var top = el.getBoundingClientRect().top;
+    var offset = id === "top" ? 0 : parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    if (Math.abs(top - offset) > 2 && tries > 0) {
+      window.scrollBy({ top: top - offset, behavior: "instant" });
+      timer = setTimeout(function () { align(id, tries - 1); }, 250);
+    }
+  }
+  function start(id) {
+    clearTimeout(timer);
+    timer = setTimeout(function () { align(id, 6); }, 700);
+  }
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a && a.getAttribute("href").length > 1) start(a.getAttribute("href").slice(1));
+  });
+  window.addEventListener("load", function () {
+    if (location.hash.length > 1) start(decodeURIComponent(location.hash.slice(1)));
+  });
+})();
+
+// Highlight the nav link for the section currently in view
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.site-nav a[href^="#"]'));
+  var items = links.map(function (a) {
+    return { a: a, el: document.getElementById(a.getAttribute("href").slice(1)) };
+  }).filter(function (i) { return i.el && i.a.getAttribute("href") !== "#top"; });
+  if (!items.length) return;
+
+  function update() {
+    var probe = window.scrollY + window.innerHeight * 0.35;
+    var active = null;
+    items.forEach(function (i) {
+      if (i.el.getBoundingClientRect().top + window.scrollY <= probe) active = i.a;
+    });
+    links.forEach(function (a) {
+      if (a === active) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  }
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+})();
+
+// Lazy-loaded images above a section shift the layout while scrolling to it,
+// so re-align with the target a few times after in-page navigation settles.
+(function () {
+  var timer;
+  function align(id, tries) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var top = el.getBoundingClientRect().top;
+    var offset = id === "top" ? 0 : parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    if (Math.abs(top - offset) > 2 && tries > 0) {
+      window.scrollBy({ top: top - offset, behavior: "instant" });
+      timer = setTimeout(function () { align(id, tries - 1); }, 250);
+    }
+  }
+  function start(id) {
+    clearTimeout(timer);
+    timer = setTimeout(function () { align(id, 6); }, 700);
+  }
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a && a.getAttribute("href").length > 1) start(a.getAttribute("href").slice(1));
+  });
+  window.addEventListener("load", function () {
+    if (location.hash.length > 1) start(decodeURIComponent(location.hash.slice(1)));
   });
 })();

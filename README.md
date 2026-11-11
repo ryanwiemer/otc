@@ -15,20 +15,18 @@ Then open http://localhost:8000.
 ## Structure
 
 ```
-index.html            Home
-about/                Our story
-weekly-runs/          Weekly runs
-otc-events/           Events
-membership/           Contact and membership
+index.html            The whole site: one page with Home, Weekly Runs (#weekly-runs),
+                      Events (#events) and Contact and Membership
+                      (#membership) sections
+about/, weekly-runs/, otc-events/, membership/
+                      Redirects from the old page URLs to the page/sections above
 css/style.css         Styles (colors and fonts are variables at the top)
-js/main.js            Header, mobile menu, Instagram feed, photo lightbox
+js/main.js            Header, mobile menu, Instagram feed
 images/               Images
 ```
 
 ## Editing
 
-- Edit page text directly in each `index.html`.
+- Edit page text directly in `index.html`.
 - **Weekly runs and events:** each one is an `<article>` block. Copy a block to add one, or delete it to remove one.
-- **Header and footer:** these are repeated in every page, including `404.html`. Update them all when changing either.
-- **Instagram feed:** set `INSTAGRAM_FEED_URL` in `js/main.js` to a [Behold](https://behold.so) JSON feed URL.
-  Without it, the footer shows a link to Instagram instead.
+- **Header and footer:** these also appear in `404.html`. Update both when changing either.

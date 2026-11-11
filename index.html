@@ -19,12 +19,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;700&family=Rubik:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body id="top">
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <header class="site-header">
     <div class="container site-header__inner">
-      <a class="site-logo" href="./" aria-label="Oakland Track Club home">
+      <a class="site-logo" href="#top" aria-label="Oakland Track Club home">
         <img src="images/logo.png" alt="Oakland Track Club" width="1568" height="97">
       </a>
       <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open navigation menu">
@@ -34,19 +34,19 @@
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Main">
       <ul>
-        <li class="nav-home"><a href="./" aria-current="page">Home</a></li>
-        <li><a href="about/">Our story</a></li>
-        <li><a href="weekly-runs/">Weekly Runs</a></li>
-        <li><a href="otc-events/">Events</a></li>
-        <li><a href="membership/">Contact and Membership</a></li>
+        <li class="nav-home"><a href="#top">Home</a></li>
+        <li><a href="#weekly-runs">Weekly Runs</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#membership">Contact and Membership</a></li>
       </ul>
       </nav>
     </div>
   </header>
 
   <main id="main">
-    <section class="hero hero--full" aria-label="Oakland Track Club">
-      <img src="images/home-hero.jpg" alt="Two Oakland Track Club runners racing on a track" style="object-position: 58% 0%;">
+    <section class="hero" aria-label="Oakland Track Club">
+      <h1 class="sr-only">Oakland Track Club</h1>
+      <img src="images/about-hero.jpg" alt="Oakland Track Club members in team shirts posing in the bleachers">
     </section>
 
     <section class="section intro">
@@ -59,39 +59,82 @@
       </div>
     </section>
 
-    <section class="section join" style="padding-top: 0;">
-      <div class="container two-col">
+    <section class="section section--light section--tight cta-band" id="weekly-runs">
+      <div class="container">
+        <h2>Find all of our runs on Strava</h2>
+        <a class="btn" href="https://www.strava.com/clubs/oakland-track-club-326878" target="_blank" rel="noopener">OTC on Strava</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container runs-layout">
+        <h2>Weekly<br>Runs</h2>
         <div>
-          <h2>Join us</h2>
-          <p>We offer multiple club runs to meet any schedule and most abilities. Every few months, we host a newcomers run at Lake Merritt. Join our Strava group to keep up with the run schedule.</p>
-          <div class="btn-row">
-            <a class="btn" href="weekly-runs/">See our Runs</a>
-            <a class="btn" href="https://www.strava.com/clubs/oakland-track-club-326878" target="_blank" rel="noopener">See Our Strava</a>
-          </div>
-        </div>
-        <div class="gallery">
-            <button type="button"><img src="images/gallery-01.jpg" alt="Oakland Track Club runners posing for a group photo" loading="lazy"></button>
-            <button type="button"><img src="images/gallery-02.jpg" alt="Oakland Track Club runners posing for a group photo" loading="lazy"></button>
-            <button type="button"><img src="images/gallery-03.jpg" alt="Runners on a group run" loading="lazy"></button>
-            <button type="button"><img src="images/gallery-04.jpg" alt="Two runners at the track" loading="lazy"></button>
-            <button type="button"><img src="images/gallery-05.jpg" alt="Four runners after a run" loading="lazy"></button>
-            <button type="button"><img src="images/gallery-06.jpg" alt="Two runners pushing strollers" loading="lazy"></button>
-            <button type="button"><img src="images/home-runners-posing.jpg" alt="Runners posing" loading="lazy"></button>
-            <button type="button"><img src="images/gallery-08.jpg" alt="Runners posing" loading="lazy"></button>
-            <button type="button"><img src="images/gallery-09.jpg" alt="Two runners at a track" loading="lazy"></button>
-            <button type="button"><img src="images/gallery-10.jpg" alt="A group of runners in front of a restaurant" loading="lazy"></button>
-            <button type="button"><img src="images/gallery-11.jpg" alt="Runners in front of a lake" loading="lazy"></button>
-            <button type="button"><img src="images/gallery-12.jpg" alt="Runners on a trail" loading="lazy"></button>
+<!-- Each run is an <article class="run">. Copy one to add a run; delete one to remove it. -->
+        <article class="run">
+          <h3><span>Saturdays | 8 AM</span><span>Lake Loops</span><span><a href="https://maps.app.goo.gl/dYE4C1JZwqK7jFLH6" target="_blank" rel="noopener">Lake Merritt Pergola</a></span></h3>
+          <p>Our staple club run! Meet at 8:00am for a lap or two (or three) around our home 3.1 mile "track." The group always starts out easy and we generally have pace groups ranging from about 7 to 10 minutes a mile.</p>
+          <p>The pergola is at the NE corner of the lake near the Lakeview Library.</p>
+        </article>
+        <article class="run">
+          <h3><span>Tuesdays | 6:15 AM</span><span>Temescal Tuesday</span><span><a href="https://www.google.com/maps/place/40th+St+%26+Alameda+County+Bicycle+Rte+35,+Oakland,+CA+94609/@37.8291964,-122.2666391,17z/" target="_blank" rel="noopener">40th and Telegraph (NE Corner)</a></span></h3>
+          <p>This is a casual, shorter run starting in Temescal at 6:15am on Tuesday mornings. The main course is a 5.5 mile loop, and the paces are generally between 6:30 - 8:30 min/mile.</p>
+        </article>
+        <article class="run">
+          <h3><span>Wednesdays | 6:15 AM</span><span>Workout Wednesday</span><span><a href="https://www.google.com/maps/place/Witter+Field/@37.8209806,-122.2377162,17z/" target="_blank" rel="noopener">Witter Track at Piedmont High School</a></span></h3>
+          <p>The biggest run of the week (we are a track club after all). We meet for mid-week speed and strength workouts at 6:15am on Wednesday mornings at Witter Track in Piedmont.</p>
+        </article>
+        <article class="run">
+          <h3><span>Thursdays | 6:15 PM</span><span>Jueves de Tacos Run</span><span><a href="https://www.google.com/maps/place/Los+Cantaros/@37.8091803,-122.2587609,17z/" target="_blank" rel="noopener">Los Cantaros</a></span></h3>
+          <p class="note">Paused for the winter. Will restart on January 21, 2027.</p>
+          <p>On Thursday evenings we meet at 6:15pm at Los Cantaros on Grand Avenue for an organized group run of 1-2 loops of Lake Merritt, followed by food and laughs! Spanish speakers are encouraged to join us — but all are welcome!</p>
+        </article>
+        <article class="run">
+          <h3><span>Fridays | 6:15 AM</span><span>Sunrise Tempo Run</span><span><a href="https://maps.app.goo.gl/iEvU7y9QtysF8nci6" target="_blank" rel="noopener">Cleveland Cascade at Lake Merritt</a></span></h3>
+          <p>A tempo run around the shores of Lake Merritt. Some take it easy while others bring their tempo pace!</p>
+        </article>
         </div>
       </div>
     </section>
 
-    <dialog class="lightbox" aria-label="Photo viewer">
-      <img src="" alt="">
-      <button type="button" class="lightbox__close" aria-label="Close">&times;</button>
-      <button type="button" class="lightbox__nav lightbox__nav--prev" aria-label="Previous photo">&#8249;</button>
-      <button type="button" class="lightbox__nav lightbox__nav--next" aria-label="Next photo">&#8250;</button>
-    </dialog>
+    <section class="section" id="events">
+      <div class="container">
+        <h2 class="page-title">OTC Events</h2>
+
+        <!-- Each event is an <article class="event">. Update the date, text, and button as needed.
+             For a live registration link, use: <a class="btn btn--italic" href="https://...">Register now</a> -->
+        <div class="events">
+
+                    <article class="event">
+            <div class="event__img"><img src="images/event-winter-classic.png" alt="Oakland Track Club The Winter Classic poster"></div>
+            <p class="event__date"><time datetime="2027-01-30">January 30, 2027</time></p>
+            <h3>Winter Classic</h3>
+            <p>Track events include the open 3200m, youth 1600m, as well as a 400m kids’ Fun Run and relays!</p>
+            <span class="btn btn--italic btn--disabled">Registration coming soon</span>
+          </article>
+          
+          <article class="event">
+            <div class="event__img"><img src="images/event-summer-classic.jpg" alt="Oakland Track Club Summer Classic logo"></div>
+            <p class="event__date"><time datetime="2026-07-18">July 18, 2026</time></p>
+            <h3>Summer Classic</h3>
+            <p>Join your friends from OTC for some Summer racing at Skyline High School in Oakland.  Track events include 5000m races for adults and youth, a 400m kids’ Fun Run, and a sure-to-be exciting mixed Distance Medley Relay.</p>
+            <p>The Summer Classic is also a fundraiser for Skyline High School’s Cross Country and Track and Field programs.</p>
+            <span class="btn btn--italic btn--disabled">Check back next year</span>
+          </article>
+
+
+
+          <article class="event">
+            <div class="event__img"><img src="images/event-lake-merritthon.png" alt="Lake Merritthon logo"></div>
+            <p class="event__date"><time datetime="2026-05-09">May 9, 2026</time></p>
+            <h3>Lake Merritthon</h3>
+            <p>Join OTC for a completely unique racing experience, where you can run a fast, flat, and controlled marathon around our scenic home “track!”</p>
+            <p>The Relay—also unique in its flexible structure—will feature teams of 2-4 runners, who can exchange in any order and as many times as they like.</p>
+            <span class="btn btn--italic btn--disabled">Check back next year</span>
+          </article>
+        </div>
+      </div>
+    </section>
 
     <section class="quote">
       <img src="images/home-quote-bg.jpg" alt="" loading="lazy">
@@ -104,21 +147,107 @@
       </div>
     </section>
 
-    <section class="partners" aria-label="Our partners">
-      <div><h2>OUR PARTNERS</h2></div>
+    <section class="section gallery-section" aria-labelledby="photos-title">
+      <div class="container">
+        <h2 class="sr-only" id="photos-title">Photos</h2>
+        <div class="gallery">
+            <button type="button" aria-haspopup="dialog" data-alt="Oakland Track Club runners posing for a group photo" aria-label="Enlarge photo 1 of 9: Oakland Track Club runners posing for a group photo"><img src="images/gallery-01.jpg" alt="" loading="lazy"></button>
+            <button type="button" aria-haspopup="dialog" data-alt="Oakland Track Club runners posing for a group photo" aria-label="Enlarge photo 2 of 9: Oakland Track Club runners posing for a group photo"><img src="images/gallery-02.jpg" alt="" loading="lazy"></button>
+            <button type="button" aria-haspopup="dialog" data-alt="Runners on a group run" aria-label="Enlarge photo 3 of 9: Runners on a group run"><img src="images/gallery-03.jpg" alt="" loading="lazy"></button>
+            <button type="button" aria-haspopup="dialog" data-alt="Two runners at the track" aria-label="Enlarge photo 4 of 9: Two runners at the track"><img src="images/gallery-04.jpg" alt="" loading="lazy"></button>
+            <button type="button" aria-haspopup="dialog" data-alt="Four runners after a run" aria-label="Enlarge photo 5 of 9: Four runners after a run"><img src="images/gallery-05.jpg" alt="" loading="lazy"></button>
+            <button type="button" aria-haspopup="dialog" data-alt="Runners posing" aria-label="Enlarge photo 6 of 9: Runners posing"><img src="images/gallery-08.jpg" alt="" loading="lazy"></button>
+            <button type="button" aria-haspopup="dialog" data-alt="Two runners at a track" aria-label="Enlarge photo 7 of 9: Two runners at a track"><img src="images/gallery-09.jpg" alt="" loading="lazy"></button>
+            <button type="button" aria-haspopup="dialog" data-alt="Runners in front of a lake" aria-label="Enlarge photo 8 of 9: Runners in front of a lake"><img src="images/gallery-11.jpg" alt="" loading="lazy"></button>
+            <button type="button" aria-haspopup="dialog" data-alt="Runners on a trail" aria-label="Enlarge photo 9 of 9: Runners on a trail"><img src="images/gallery-12.jpg" alt="" loading="lazy"></button>
+        </div>
+      </div>
+    </section>
+
+    <dialog class="lightbox" aria-label="Photo viewer">
+      <img alt="">
+      <button type="button" class="lightbox__close" aria-label="Close">&times;</button>
+      <button type="button" class="lightbox__nav lightbox__nav--prev" aria-label="Previous photo">&#8249;</button>
+      <button type="button" class="lightbox__nav lightbox__nav--next" aria-label="Next photo">&#8250;</button>
+    </dialog>
+
+    <section class="section section--light keep-in-touch" id="membership">
+      <div class="container two-col">
+        <div class="collage">
+          <img class="collage__a" src="images/membership-bg.jpg" alt="Oakland Track Club members at a cross country race" loading="lazy">
+          <img class="collage__b" src="images/membership-members.jpg" alt="Members of Oakland Track Club" loading="lazy">
+        </div>
+        <div>
+          <h2>Keep in touch</h2>
+          <p>Keep tabs on the club by following us on <a href="https://www.instagram.com/oaklandtrackclub" target="_blank" rel="noopener">Instagram</a> and joining our club on <a href="https://www.strava.com/clubs/oakland-track-club-326878" target="_blank" rel="noopener">Strava</a>.</p>
+          <p>Anyone is welcome to come out to our group runs and see what we're all about! The best way to find out if Oakland Track Club is something you'd like to be a part of is to show up, say hi, and run with us!</p>
+          <p>Oakland Track Club is a strong and supportive community of athletes based upon the shared values of training hard, mutual support, and chasing improvement.</p>
+          <p>To become a member or for other questions, email <a href="mailto:membership@oaklandtrackclub.org">membership@oaklandtrackclub.org</a> or fill out the form below.</p>
+          <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfs9kymG7cI0b68FdRhXeLYSOz7o_jLre0TxA70itX16dUGEQ/viewform" target="_blank" rel="noopener" style="margin-top: 8px;">Join the Club</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--black dues">
+      <div class="container" style="max-width: 1000px;">
+        <h2>Membership Benefits</h2>
+        <div class="benefits">
+          <div class="benefit">
+            <img src="images/benefit-workouts.jpg" alt="Oakland Track Club runners lined up at the track for a workout" loading="lazy">
+            <div class="benefit__card">
+              <h3>Organized group workouts and runs</h3>
+              <p>We host runs nearly every day in locations around Oakland. Joining OTC is a great way to get motivated and find runners with similar goals and paces to run with.</p>
+            </div>
+          </div>
+          <div class="benefit">
+            <img src="images/benefit-discounts.jpg" alt="Runners racing on the track at the Winter Classic" loading="lazy">
+            <div class="benefit__card">
+              <h3>Discounts from our sponsors and partners</h3>
+              <p>Enjoy exclusive discounts from Rabbit and club-only discount codes to a number of local and regional races, both road and trail.</p>
+            </div>
+          </div>
+          <div class="benefit">
+            <img src="images/about-pacers.jpg" alt="Oakland Track Club members in team singlets at the club tent" loading="lazy">
+            <div class="benefit__card">
+              <h3>Rabbit Racing Singlet &amp; Members-only gear</h3>
+              <p>New members get a Rabbit singlet so they can rep the club in style. Plus, members get access to our gear shop where we sell affordable training gear.</p>
+            </div>
+          </div>
+          <div class="benefit">
+            <img src="images/benefit-training.jpg" alt="A large group of Oakland Track Club members at Lake Merritt" loading="lazy">
+            <div class="benefit__card">
+              <h3>Training and Racing Partners</h3>
+              <p>Train together for races with OTC, including local stalwarts such as the Oakland Half and Full Marathon, Napa, and CIM, and major national races such as Chicago, Boston, and NYC. Do a track or road relay race, or race as a team in Cross Country.</p>
+            </div>
+          </div>
+          <div class="benefit">
+            <img src="images/gallery-10.jpg" alt="Oakland Track Club members gathered in front of a restaurant" loading="lazy">
+            <div class="benefit__card">
+              <h3>Vibrant Slack Community</h3>
+              <p>Keep up with everything that is happening in the club and with teammates in our Slack community. Here you'll find channels about racing, food, pets, and spaces for Femmes/Women/Nonbinary runners, injured runners, and trail runners.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--light">
+      <div class="container sliding-scale">
+        <h2>Choose the dues that fit your circumstances</h2>
+        <p>Our suggested annual membership is $75. We ask that members contribute an amount that is meaningful to them. A guideline that we use is what you would pay for a new pair of running shoes or a dinner out for your family.</p>
+        <p>Many members find that they would like to contribute an amount between these numbers. If that's you, please choose the lower amount and then <a href="https://www.paypal.com/paypalme/oaklandtrackclub" target="_blank" rel="noopener">donate the rest here</a>.</p>
+        <p>To become a member, please contact <a href="mailto:membership@oaklandtrackclub.org">membership@oaklandtrackclub.org</a></p>
+      </div>
+    </section>
+
+    <section class="partners" aria-labelledby="partners-title">
+      <div><h2 id="partners-title">OUR PARTNERS</h2></div>
       <div><a href="https://www.runinrabbit.com/" target="_blank" rel="noopener"><img src="images/partner-rabbit.png" alt="rabbit" loading="lazy"></a></div>
       <div><a href="https://www.oaklandmarathon.com/" target="_blank" rel="noopener"><img src="images/partner-oakland-marathon.png" alt="Oakland Marathon" loading="lazy"></a></div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <!-- Instagram feed: posts load from the feed URL set at the top of js/main.js -->
-    <section class="ig-feed" aria-label="Latest from Instagram" hidden>
-      <div class="ig-feed__track"></div>
-      <button type="button" class="ig-feed__arrow ig-feed__arrow--prev" aria-label="Previous posts">&#8249;</button>
-      <button type="button" class="ig-feed__arrow ig-feed__arrow--next" aria-label="Next posts">&#8250;</button>
-      <p class="ig-feed__follow"><a href="https://www.instagram.com/oaklandtrackclub" target="_blank" rel="noopener">Follow @oaklandtrackclub on Instagram</a></p>
-    </section>
 
     <div class="site-footer__bar">
       <div class="social">
