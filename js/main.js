@@ -172,7 +172,8 @@ var navScrolling = false;
 
   function show(i) {
     current = (i + buttons.length) % buttons.length;
-    img.src = buttons[current].querySelector("img").getAttribute("src");
+    // The grid shows small thumbnails; open the larger image in the lightbox
+    img.src = buttons[current].dataset.full || buttons[current].querySelector("img").getAttribute("src");
     img.alt = buttons[current].dataset.alt || "";
   }
 
