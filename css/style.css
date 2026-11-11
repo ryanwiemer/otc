@@ -73,6 +73,8 @@ p { margin: 0 0 1em; }
 /* In-page anchors land below the fixed header */
 [id] { scroll-margin-top: var(--header-h); }
 body[id] { scroll-margin-top: 0; }
+/* Sections get focus after a nav jump (for keyboard users); no outline box around them */
+section[tabindex="-1"]:focus, main[tabindex="-1"]:focus { outline: none; }
 
 .container {
   width: 100%;

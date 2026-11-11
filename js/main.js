@@ -5,6 +5,9 @@
 var INSTAGRAM_FEED_URL = "";
 var INSTAGRAM_POST_COUNT = 12;
 
+// True while a nav link is smooth-scrolling to its section (set further down)
+var navScrolling = false;
+
 // Header: slide up when scrolling down, slide back in when scrolling up
 (function () {
   var header = document.querySelector(".site-header");
@@ -19,6 +22,14 @@ var INSTAGRAM_POST_COUNT = 12;
     var y = window.scrollY;
     var delta = y - lastY;
     var menuOpen = nav && nav.classList.contains("is-open");
+
+    // Hold the header in place during nav-link scrolls; resume afterwards
+    // from wherever the page ended up.
+    if (navScrolling) {
+      lastY = y;
+      ticking = false;
+      return;
+    }
 
     if (y <= header.offsetHeight || menuOpen) {
       header.classList.remove("is-hidden");
@@ -182,104 +193,104 @@ var INSTAGRAM_POST_COUNT = 12;
   });
 })();
 
-// Highlight the nav link for the section currently in view
+// In-page navigation: one smooth scroll straight to the section.
+// Image sizes are reserved in the HTML, so the target doesn't move mid-scroll.
+// The header stays visible for the whole scroll (sections are offset for it),
+// and the nav highlight jumps to the clicked link instead of flickering
+// through every section passed on the way.
 (function () {
+  var header = document.querySelector(".site-header");
   var links = Array.prototype.slice.call(document.querySelectorAll('.site-nav a[href^="#"]'));
-  var items = links.map(function (a) {
+  var sections = links.map(function (a) {
     return { a: a, el: document.getElementById(a.getAttribute("href").slice(1)) };
-  }).filter(function (i) { return i.el && i.a.getAttribute("href") !== "#top"; });
-  if (!items.length) return;
+  }).filter(function (s) { return s.el && s.a.getAttribute("href") !== "#top"; });
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var settleTimer, safetyTimer, targetTop = 0, ticking = false;
 
-  function update() {
-    var probe = window.scrollY + window.innerHeight * 0.35;
-    var active = null;
-    items.forEach(function (i) {
-      if (i.el.getBoundingClientRect().top + window.scrollY <= probe) active = i.a;
-    });
+  function setActive(link) {
     links.forEach(function (a) {
-      if (a === active) a.setAttribute("aria-current", "true");
+      if (a === link) a.setAttribute("aria-current", "true");
       else a.removeAttribute("aria-current");
     });
   }
-  window.addEventListener("scroll", update, { passive: true });
-  window.addEventListener("resize", update);
-  update();
-})();
 
-// Lazy-loaded images above a section shift the layout while scrolling to it,
-// so re-align with the target a few times after in-page navigation settles.
-(function () {
-  var timer;
-  function align(id, tries) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var top = el.getBoundingClientRect().top;
-    var offset = id === "top" ? 0 : parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
-    if (Math.abs(top - offset) > 2 && tries > 0) {
-      window.scrollBy({ top: top - offset, behavior: "instant" });
-      timer = setTimeout(function () { align(id, tries - 1); }, 250);
-    }
-  }
-  function start(id) {
-    clearTimeout(timer);
-    timer = setTimeout(function () { align(id, 6); }, 700);
-  }
-  document.addEventListener("click", function (e) {
-    var a = e.target.closest && e.target.closest('a[href^="#"]');
-    if (a && a.getAttribute("href").length > 1) start(a.getAttribute("href").slice(1));
-  });
-  window.addEventListener("load", function () {
-    if (location.hash.length > 1) start(decodeURIComponent(location.hash.slice(1)));
-  });
-})();
-
-// Highlight the nav link for the section currently in view
-(function () {
-  var links = Array.prototype.slice.call(document.querySelectorAll('.site-nav a[href^="#"]'));
-  var items = links.map(function (a) {
-    return { a: a, el: document.getElementById(a.getAttribute("href").slice(1)) };
-  }).filter(function (i) { return i.el && i.a.getAttribute("href") !== "#top"; });
-  if (!items.length) return;
-
-  function update() {
-    var probe = window.scrollY + window.innerHeight * 0.35;
+  function updateActive() {
+    ticking = false;
+    if (navScrolling || !sections.length) return;
+    var probe = window.innerHeight * 0.35;
     var active = null;
-    items.forEach(function (i) {
-      if (i.el.getBoundingClientRect().top + window.scrollY <= probe) active = i.a;
+    sections.forEach(function (s) {
+      if (s.el.getBoundingClientRect().top <= probe) active = s.a;
     });
-    links.forEach(function (a) {
-      if (a === active) a.setAttribute("aria-current", "true");
-      else a.removeAttribute("aria-current");
-    });
+    setActive(active);
   }
-  window.addEventListener("scroll", update, { passive: true });
-  window.addEventListener("resize", update);
-  update();
-})();
 
-// Lazy-loaded images above a section shift the layout while scrolling to it,
-// so re-align with the target a few times after in-page navigation settles.
-(function () {
-  var timer;
-  function align(id, tries) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var top = el.getBoundingClientRect().top;
-    var offset = id === "top" ? 0 : parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
-    if (Math.abs(top - offset) > 2 && tries > 0) {
-      window.scrollBy({ top: top - offset, behavior: "instant" });
-      timer = setTimeout(function () { align(id, tries - 1); }, 250);
+  function requestUpdate() {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(updateActive);
     }
   }
-  function start(id) {
-    clearTimeout(timer);
-    timer = setTimeout(function () { align(id, 6); }, 700);
+
+  function finish() {
+    clearTimeout(settleTimer);
+    clearTimeout(safetyTimer);
+    window.removeEventListener("scroll", onNavScroll);
+    navScrolling = false;
+    requestUpdate();
   }
+
+  // Finished once the page reaches the target, or has stopped moving for a
+  // moment (e.g. the visitor grabbed the scroll mid-way). scrollend isn't
+  // available in every browser yet, so this is detected by hand.
+  function onNavScroll() {
+    clearTimeout(settleTimer);
+    if (Math.abs(window.scrollY - targetTop) < 2) return finish();
+    settleTimer = setTimeout(finish, 200);
+  }
+
+  function scrollToTarget(el, link) {
+    var offset = el === document.body ? 0 : (header ? header.offsetHeight : 0);
+    var top = el === document.body ? 0 :
+      el.getBoundingClientRect().top + window.scrollY - offset;
+    top = Math.max(0, Math.min(top, document.documentElement.scrollHeight - window.innerHeight));
+
+    if (Math.abs(top - window.scrollY) < 2) return finishFocus(el);
+
+    navScrolling = true;
+    if (header) header.classList.remove("is-hidden");
+    setActive(link && link.closest(".site-nav") && el !== document.body ? link : null);
+
+    targetTop = top;
+    window.addEventListener("scroll", onNavScroll, { passive: true });
+    clearTimeout(settleTimer);
+    clearTimeout(safetyTimer);
+    // Fallback in case the browser never scrolls (long jumps can take ~2s)
+    safetyTimer = setTimeout(finish, 4000);
+    window.scrollTo({ top: top, behavior: reduceMotion.matches ? "auto" : "smooth" });
+    finishFocus(el);
+  }
+
+  // Move keyboard focus to the section, like a normal anchor jump would
+  function finishFocus(el) {
+    if (el === document.body) return;
+    if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+    el.focus({ preventScroll: true });
+  }
+
   document.addEventListener("click", function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     var a = e.target.closest && e.target.closest('a[href^="#"]');
-    if (a && a.getAttribute("href").length > 1) start(a.getAttribute("href").slice(1));
+    if (!a) return;
+    var id = a.getAttribute("href").slice(1);
+    var el = id ? document.getElementById(id) : null;
+    if (!el) return;
+    e.preventDefault();
+    if (location.hash !== "#" + id) history.pushState(null, "", "#" + id);
+    scrollToTarget(el, a);
   });
-  window.addEventListener("load", function () {
-    if (location.hash.length > 1) start(decodeURIComponent(location.hash.slice(1)));
-  });
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
+  updateActive();
 })();
